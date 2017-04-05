@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title></title>
+    <link rel="stylesheet" href="http://112.74.179.129/arcgis_js_api/library/3.9/3.9/js/esri/css/esri.css">
+    <style type="text/css">
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-size: 62.5%;
+            font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+        }
+    </style>
+    <script src="http://112.74.179.129/arcgis_js_api/library/3.9/3.9/init.js"></script>
+    <script type="text/javascript">
+        var map;
+        require([
+                "esri/map",
+                "esri/layers/WMSLayer",
+                'esri/layers/WMSLayerInfo',
+                "esri/geometry/Point",
+                "esri/geometry/Extent",
+                "dojo/domReady!"],
+            function(Map,
+                     WMSLayer,
+                     WMSLayerInfo,
+                     Point,
+                     Extent)
+            {
+                map = new Map('map', {
+                    //basemap: 'streets',
+                    center: [100, 25],
+                    logo: false,
+                    zoom: 4
+                });
+
+
+                var layer1 = new WMSLayerInfo({
+                    name: '1',
+                    title: 'Region'
+                });
+                var resourceInfo = {
+                    extent: new Extent(73.487345,3.832361,135.087387,53.561602,{wkid: 4326}),
+                    layerInfos: [layer1],
+                    version : '1.1.1'
+                };
+                //var agsWmsUrl = "http://localhost:6080/arcgis/services/road/MapServer/WMSServer";
+                var agsWmsUrl = "http://gisserver.tianditu.com/TDTService/region/wms";
+                var agsWmsLayer = new WMSLayer(agsWmsUrl,{
+                    resourceInfo: resourceInfo,
+                    visibleLayers: ['1']
+                });
+//                agsWmsLayer.setImageFormat("png");
+//                agsWmsLayer.setVisibleLayers([0]);
+                map.addLayers([agsWmsLayer]);
+
+//                var geoWmsUrl = "http://200.200.200.220:8080/geoserver/wms";
+//                var geoWmsLayer = new WMSLayer(geoWmsUrl,{resourceInfo: resourceInfo});
+//                geoWmsLayer.setImageFormat("png");
+//                geoWmsLayer.setVisibleLayers(["capital","pro"]);
+//                map.addLayer(geoWmsLayer);
+//
+//                var mapCenter = new Point(103.847, 36.0473, map.spatialReference);
+//                map.centerAndZoom(mapCenter,4);
+            });
+    </script>
+</head>
+<body>
+<div id="map">
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestBaiduMap</title>
+    <link rel="stylesheet" href="http://112.74.179.129/arcgis_js_api/library/3.9/3.9/js/dojo/dijit/themes/tundra/tundra.css">
+    <link rel="stylesheet" href="http://112.74.179.129/arcgis_js_api/library/3.9/3.9/js/esri/css/esri.css">
+    <style>
+        html, body, #map {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #base_map{
+            position: absolute;
+            right: 15pt;
+            top:15pt;
+            background: #f0f0f0;
+            border: #96aed1 1px solid;
+            width: auto;
+            height: auto;
+            z-index: 99;
+            font:normal 11px "宋体",Arial;
+            color:#868686;
+        }
+    </style>
+    <!--配置百度地图js的路径-->
+    <script src="../js/dojoconfig.js"></script>
+    <script src="http://112.74.179.129/arcgis_js_api/library/3.9/3.9/init.js"></script>
+    <script src="../lib/jquery-1.11.2.min.js"></script>
+    <script>
+        var map;
+        require(["esri/map",
+            "bdlib/BDVecLayer",
+            "bdlib/BDimgLayer",
+            "bdlib/BDAnoLayer",
+            "esri/layers/FeatureLayer",
+            "esri/geometry/Point",
+            "esri/SpatialReference",
+            "dojo/domReady!"
+        ], function (Map,
+                     BDVecLayer,
+                     BDimgLayer,
+                     BDAnoLayer,
+                     FeatureLayer,
+                     Point,
+                     SpatialReference
+        ){
+            map = new Map("map", {logo: false});
+//            var vecMap = new BDVecLayer();
+//            map.addLayer(vecMap);
+            var imgMap = new BDimgLayer();
+            var AnoMap = new BDAnoLayer();
+            map.addLayer(imgMap);
+            map.addLayer(AnoMap);
+//            中心点
+            var pt = new Point(7038512.810510807, 2629489.7975553474, new SpatialReference({ wkid: 102100 }));
+            map.centerAndZoom(pt, 5);
+
+        });
+
+    </script>
+</head>
+<body>
+<div id="map">
+    <div id="base_map">
+
+    </div>
+</div>
+</body>
+</html>

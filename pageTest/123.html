@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="export_raw()" >baocun</button>
+<script>
+    function export_raw() {
+        var data = createXML();
+        var name = "test.xml";
+        var urlObject = window.URL || window.webkitURL || window;
+        var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+        var export_blob = new Blob([data]);
+        save_link.href = urlObject.createObjectURL(export_blob);
+        save_link.download = name;
+        fake_click(save_link);
+    }
+    function fake_click(obj) {
+        var ev = document.createEvent("MouseEvents");
+        ev.initMouseEvent(
+            "click", true, false, window, 0, 0, 0, 0, 0
+            , false, false, false, false, 0, null
+        );
+        obj.dispatchEvent(ev);
+    }
+
+    function createXML() {
+        var xmlDOM = createXMLDOM();
+        if (xmlDOM) {
+            var data = xmlDOM.createElement('MapData');
+            xmlDOM.appendChild(data);
+            newEle = xmlDOM.createElement("x");
+            newText = xmlDOM.createTextNode("100");
+            newEle.appendChild(newText);
+            data.appendChild(newEle);
+            newEle = xmlDOM.createElement("y");
+            newText = xmlDOM.createTextNode("26");
+            newEle.appendChild(newText);
+            data.appendChild(newEle);
+            newEle = xmlDOM.createElement("path");
+            newText = xmlDOM.createTextNode("123123123123");
+            newEle.appendChild(newText);
+            data.appendChild(newEle);
+            return parserXMLToString(xmlDOM);
+        }
+        alert("createXMLDOM cuowu ");
+        return " ";
+    }
+
+    function createXMLDOM() {
+        var xmlDOM;
+        if (window.ActiveXObject) {
+            xmlDOM = new ActiveXObject('Microsoft.XMLDOM');
+        } else if (document.implementation
+            && document.implementation.createDocument) {
+            xmlDOM = document.implementation.createDocument('', '', null);
+        } else {
+            alert('您的浏览器不支持文档对象XMLDOM');
+            return;
+        }
+        return xmlDOM;
+    }
+//    function createXML() {
+//        var xmlDOM = createXMLDOM();
+//        if (xmlDOM) {
+//            var graph = xmlDOM.createElement('graph');
+//            for (var i = 0; i < 2; i++) {
+//                var set_name_value = xmlDOM.createElement('set');
+//                set_name_value.setAttribute('name', i + 1);
+//                set_name_value.setAttribute('value', i + 1);
+//                graph.appendChild(set_name_value);
+//            }
+//            xmlDOM.appendChild(graph);
+//            return parserXMLToString(xmlDOM);
+//        }
+//        return;
+//    }
+
+    function parserXMLToString(xmlDOM) {
+        if (window.ActiveXObject) {
+            return xmlDOM.xml;
+        } else if (document.implementation
+            && document.implementation.createDocument) {
+            return new XMLSerializer().serializeToString(xmlDOM);
+        }
+    }
+
+    function parserStringToXMLDOM(str) {
+        var parser = new DOMParser();
+        var xmlDOM = parser.parseFromString(str, 'text/xml');
+        return xmlDOM;
+    }
+
+</script>
+</body>
+</html>
+
+
+
